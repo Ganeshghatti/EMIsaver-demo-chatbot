@@ -1,4 +1,4 @@
-/* EMIsaver demo chatbot (WhatsApp-style) */
+/* EMIsaver chatbot (WhatsApp-style) */
 
 const BRAND = {
   b1: "#832FAD",
@@ -35,7 +35,7 @@ const FAQ = [
   },
   {
     q: "How much loan can I get?",
-    a: "Eligibility depends on income, existing EMIs, tenure, interest rate, and credit profile. Use the Eligibility Check to get a quick estimate in this demo.",
+    a: "Eligibility depends on income, existing EMIs, tenure, interest rate, and credit profile. Use the Eligibility Check to get a quick estimate.",
   },
 ];
 
@@ -198,7 +198,7 @@ function welcome() {
         <div class="min-w-0">
           <div class="font-semibold">Welcome to EMIsaver</div>
           <div class="text-white/75 mt-1">
-            I can help you with a quick home loan guidance demo.
+            I can help you with home loan guidance and quick estimates.
           </div>
           <div class="text-white/60 text-[12px] mt-2">
             Choose one option to begin.
@@ -284,7 +284,7 @@ function computeEligibilityAndRespond() {
   const years = Number(STATE.data.tenureYears);
   const annualRate = Number(STATE.data.annualRate);
 
-  // Simple demo rule:
+  // Simple estimate rule:
   // - Allow up to 40% of (income - obligations) as EMI capacity (DTI style).
   const disposable = Math.max(0, income - obligations);
   const maxEmi = Math.max(0, disposable * 0.4);
@@ -305,7 +305,7 @@ function computeEligibilityAndRespond() {
     html: `
       <div class="font-semibold">Eligibility estimate</div>
       <div class="mt-2 text-white/80">
-        Based on a simple demo rule (max EMI ≈ <b>40%</b> of disposable income):
+        Based on a simple estimate rule (max EMI ≈ <b>40%</b> of disposable income):
       </div>
       <div class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
         <div class="rounded-xl border border-white/10 bg-white/5 p-3">
@@ -326,7 +326,7 @@ function computeEligibilityAndRespond() {
         </div>
       </div>
       <div class="mt-3 text-[11px] text-white/55">
-        Tenure: ${years}y · Rate: ${annualRate}% p.a. · For presentation/demo only.
+        Tenure: ${years}y · Rate: ${annualRate}% p.a.
       </div>
       <div class="mt-3 text-white/80">Want to do something else?</div>
     `,
@@ -462,7 +462,7 @@ function answerFaq(questionText) {
   const hit = FAQ.find((x) => x.q.toLowerCase() === questionText.toLowerCase());
   addMessage({
     from: "bot",
-    text: hit ? hit.a : "I didn’t find that question in this demo list.",
+    text: hit ? hit.a : "I didn’t find that question in the current list.",
     quickReplies: [
       { id: "moreFaq", label: "More common queries" },
       { id: "home", label: "Back to start" },
