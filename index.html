@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EMIsaver – Demo Chatbot</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            boxShadow: {
+              soft: "0 18px 60px rgba(0,0,0,.28)",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      :root {
+        --brand-1: #832fad;
+        --brand-2: #4c2aa2;
+        --brand-3: #5b2ca5;
+        --brand-4: #5530a6;
+        --wa-bg: #081018;
+        --wa-panel: rgba(12, 20, 29, 0.86);
+        --wa-panel-2: rgba(18, 29, 40, 0.88);
+        --wa-text: #eef2f7;
+        --wa-sub: #9db0c0;
+        --wa-bubble-bot: rgba(255, 255, 255, 0.07);
+        --wa-bubble-user: linear-gradient(135deg, var(--brand-3), var(--brand-2));
+        --wa-input: rgba(255, 255, 255, 0.06);
+      }
+
+      html,
+      body {
+        height: 100%;
+        overflow: hidden;
+      }
+
+      body {
+        background:
+          radial-gradient(circle at top left, rgba(131, 47, 173, 0.1), transparent 26%),
+          radial-gradient(circle at 85% 14%, rgba(76, 42, 162, 0.08), transparent 22%),
+          linear-gradient(180deg, #05080d 0%, #0a121a 100%);
+      }
+
+      .chat-wallpaper {
+        background-color: var(--wa-bg);
+        background-image:
+          radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+          radial-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+        background-position:
+          0 0,
+          18px 18px;
+        background-size: 36px 36px;
+      }
+
+      .brand-gradient {
+        background-image: linear-gradient(135deg, var(--brand-1), var(--brand-2));
+      }
+
+      .device-shell {
+        background:
+          linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02)),
+          rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(20px);
+      }
+
+      .device-bezel {
+        background: linear-gradient(180deg, rgba(8, 14, 22, 0.96), rgba(10, 18, 28, 0.98));
+      }
+
+      #messages {
+        overscroll-behavior: contain;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      #messages::-webkit-scrollbar {
+        width: 0;
+        height: 0;
+      }
+    </style>
+  </head>
+  <body class="h-dvh text-[var(--wa-text)]">
+    <main class="h-dvh overflow-hidden flex items-center justify-center px-3 py-3 sm:px-6 sm:py-6">
+      <section class="w-full max-w-[1100px] h-full grid grid-cols-1 lg:grid-cols-[340px_minmax(0,1fr)] gap-5 items-center">
+        <aside class="hidden lg:block">
+          <div class="device-shell rounded-[2rem] overflow-hidden shadow-soft border border-white/10">
+            <div class="p-7">
+              <div class="inline-flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
+                <div class="w-11 h-11 rounded-2xl bg-white grid place-items-center overflow-hidden border border-white/20 shadow-[0_10px_24px_rgba(255,255,255,.08)]">
+                  <img src="./logo.svg" alt="EMIsaver" class="w-8 h-auto" />
+                </div>
+                <div>
+                  <div class="text-lg font-semibold tracking-tight">EMIsaver</div>
+                  <div class="text-sm text-white/70">Home loan consultation</div>
+                </div>
+              </div>
+
+              <div class="mt-8">
+                <div class="text-4xl font-semibold leading-tight tracking-tight">
+                  A clean WhatsApp-style
+                  <span class="bg-clip-text text-transparent brand-gradient">loan guidance demo</span>
+                </div>
+                <p class="mt-4 text-sm leading-7 text-[var(--wa-sub)]">
+                  Built for presentations: fast, static, elegant, and easy to follow.
+                  Users can tap reply chips or type values manually.
+                </p>
+              </div>
+
+              <div class="mt-7 space-y-3 text-sm">
+                <div class="rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
+                  Loan eligibility estimate with guided questions
+                </div>
+                <div class="rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
+                  EMI calculator with quick input options
+                </div>
+                <div class="rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
+                  Common queries with predefined instant answers
+                </div>
+              </div>
+
+              <div class="mt-7 rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-[var(--wa-sub)]">
+                Tip: use values like <span class="font-mono text-white">85000</span>,
+                <span class="font-mono text-white">35,00,000</span> or
+                <span class="font-mono text-white">9.0</span>.
+              </div>
+            </div>
+          </div>
+        </aside>
+
+        <div class="flex items-center justify-center h-full min-h-0">
+          <div class="device-shell w-full max-w-[430px] rounded-[2.4rem] p-2.5 sm:p-3 shadow-[0_30px_90px_rgba(0,0,0,.5)] border border-white/10">
+            <section
+              class="device-bezel rounded-[2rem] overflow-hidden flex flex-col h-[calc(100dvh-24px)] sm:h-[min(860px,calc(100dvh-48px))]"
+              aria-label="EMIsaver chatbot demo"
+            >
+              <div class="h-7 flex items-center justify-center bg-black/35 shrink-0">
+                <div class="h-1.5 w-24 rounded-full bg-white/10"></div>
+              </div>
+
+              <header class="shrink-0 border-b border-white/10 bg-[var(--wa-panel-2)] backdrop-blur-xl">
+                <div class="px-4 py-3 flex items-center gap-3">
+                  <div class="w-11 h-11 rounded-2xl bg-white grid place-items-center overflow-hidden border border-white/20 shadow-[0_10px_24px_rgba(255,255,255,.08)]">
+                    <img src="./logo.svg" alt="EMIsaver" class="w-8 h-auto drop-shadow" />
+                  </div>
+                  <div class="min-w-0">
+                    <div class="flex items-center gap-2">
+                      <div class="font-semibold tracking-tight truncate">EMIsaver</div>
+                      <span
+                        class="inline-flex items-center gap-1.5 text-[10px] px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-[var(--wa-sub)]"
+                        title="Demo mode"
+                      >
+                        Demo bot
+                      </span>
+                    </div>
+                  </div>
+                  <div class="ml-auto flex items-center gap-2">
+                    <button
+                      id="restartTop"
+                      class="text-xs px-3 py-2 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition"
+                      type="button"
+                      title="Restart chatbot"
+                    >
+                      Restart
+                    </button>
+                  </div>
+                </div>
+              </header>
+
+              <div class="chat-wallpaper flex-1 min-h-0">
+                <div
+                  id="messages"
+                  class="h-full overflow-y-auto px-3 sm:px-4 py-4 space-y-2"
+                  role="log"
+                  aria-live="polite"
+                  aria-relevant="additions"
+                ></div>
+              </div>
+
+              <footer class="shrink-0 bg-[var(--wa-panel-2)] border-t border-white/10 backdrop-blur-xl">
+                <form id="composer" class="p-3 flex items-end gap-2">
+                  <div class="flex-1">
+                    <div class="rounded-[1.4rem] bg-[var(--wa-input)] border border-white/10 px-3 py-2.5 flex items-end gap-2 shadow-[inset_0_1px_0_rgba(255,255,255,.03)]">
+                      <div class="flex-1">
+                        <label for="textInput" class="sr-only">Type a message</label>
+                        <textarea
+                          id="textInput"
+                          rows="1"
+                          placeholder="Type a message..."
+                          class="w-full resize-none bg-transparent outline-none text-sm leading-5 placeholder:text-white/35 max-h-28"
+                        ></textarea>
+                      </div>
+                    </div>
+                  </div>
+                  <button
+                    id="sendBtn"
+                    type="submit"
+                    class="shrink-0 rounded-[1.2rem] px-4 py-3 text-sm font-semibold text-white border border-white/10 brand-gradient hover:opacity-95 active:opacity-90 transition shadow-[0_10px_25px_rgba(91,44,165,.32)]"
+                  >
+                    Send
+                  </button>
+                </form>
+              </footer>
+            </section>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
+
